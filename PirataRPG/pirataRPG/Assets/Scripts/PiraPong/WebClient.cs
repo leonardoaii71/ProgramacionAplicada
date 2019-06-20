@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NewBehaviourScript : MonoBehaviour
+public class WebClient : MonoBehaviour
 {
     string url = "https://isc2103-2018-2019rpgwebapi.azurewebsites.net/api/Scores";
     GlobalScript globalScript;
@@ -17,8 +17,9 @@ public class NewBehaviourScript : MonoBehaviour
         public double score;
     }
 
-    private void Awake() {
-        var globalScript = Camera.main.GetComponent<GlobalScript>();
+    void Awake() {
+        globalScript = Camera.main.GetComponent<GlobalScript>();
+
     }
 
     void Start()
@@ -29,16 +30,19 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.F6))
         {
-            StartCoroutine("SendRquest");
+            Debug.Log("f6");
+            StartCoroutine("SendGetRquest");
         }
-         if (Input.GetButtonDown("Fire3"))
+         if (Input.GetKeyDown(KeyCode.F7))
         {
-            StartCoroutine("SendPostRequest");
+            Debug.Log("f7");
+            StartCoroutine("SendPutRequest");
         }
     }
-    IEnumerator SendRquest(string url)
+
+    IEnumerator SendGetRquest()
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -47,32 +51,24 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    /*IEnumerator SendPostRequest(string url)
+    IEnumerator SendPutRequest()
     {
-        
-        Score newScore = new Score { PlayerName = "Leonardo", score = global.leftScore };
-        www.UnityWebRequest.Put(url, JsonUtility.ToJson(newScore));
+        Score newScore = new Score { IdScore = 1, PlayerName = "Leonardo", score = globalScript.rightScore };
+        UnityWebRequest www = UnityWebRequest.Put(url, JsonUtility.ToJson(newScore));
         www.SetRequestHeader("content-type", "application/json");
 
-        yield return www.downloadHandler.text);
-        
-        Debug.Log("www.donwloadHandler.text");
-    }*/
+        yield return www.downloadHandler.text;
 
-    IEnumerator Upload() {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        formData.Add( new MultipartFormDataSection("field1=foo&field2=bar") );
-        formData.Add( new MultipartFormFileSection("my file data", "myfile.txt") );
-
-        UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", formData);
-        yield return www.SendWebRequest();
- 
-        if(www.isNetworkError || www.isHttpError) {
+        if (www.isNetworkError || www.isHttpError)
+        {
             Debug.Log(www.error);
         }
-        else {
-            Debug.Log("Form upload complete!");
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
         }
+        
     }
 
+   
 }

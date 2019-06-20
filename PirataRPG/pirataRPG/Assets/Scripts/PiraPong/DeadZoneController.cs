@@ -15,7 +15,7 @@ bool isLeftDeadZone;
     // Start is called before the first frame update
     void Start()
     {
-        isLeftDeadZone = gameObject.name == "leftDeadZone";
+        isLeftDeadZone = gameObject.name == "LeftDeadZone";
     }
 
     // Update is called once per frame
@@ -28,10 +28,12 @@ bool isLeftDeadZone;
         if (other.name != "Ball")
             return;
 
-        globalScript.incrementScore(isLeftDeadZone);
-        Ball.transform.SetParent(isLeftDeadZone ? RightPlayer.transform : LeftPlayer.transform);        
-        Ball.transform.position = new Vector3(isLeftDeadZone ? -2.5f: 2.5f, 0);
+        globalScript.incrementScore(!isLeftDeadZone);
+        Ball.transform.SetParent(isLeftDeadZone ? RightPlayer.transform : LeftPlayer.transform);
+        Debug.Log(isLeftDeadZone);
+        Debug.Log(Ball.transform.parent.name);
+        Ball.transform.localPosition = new Vector3(isLeftDeadZone ? -2.5f : 2.5f, 0);
         Ball.SendMessage("UpdateBallState");
-        Debug.Log("collision detected");
+        
     }
 }

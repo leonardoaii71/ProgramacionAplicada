@@ -25,6 +25,6 @@ public class Instantiator : MonoBehaviour
     IEnumerator InstantiatorcoRoutine()
     {
         nextTime = Random.Range(LOWERTIME, UPPERTIME);
-
+        yield return new WaitForEndOfFrame();
     }
 }
