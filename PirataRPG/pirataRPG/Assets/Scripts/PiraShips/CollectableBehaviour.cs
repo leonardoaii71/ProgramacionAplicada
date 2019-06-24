@@ -15,4 +15,11 @@ public class CollectableBehaviour : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter(Collider other) {
+        if (gameObject.tag == "enemy")
+        {
+            
+        }
+    }
 }

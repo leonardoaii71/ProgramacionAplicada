@@ -33,4 +33,10 @@ public class BoatPlayerBehaviour : MonoBehaviour
             transform.position.x,
             Mathf.Clamp(transform.position.y, VERTICALLOWERLIMIT, VERTICALUPPERLIMIT));
     }
+
+    public void OnHitted(){
+        //HitPoints--;
+        //Destroy(GameObject.Find())
+
+    }
 }
